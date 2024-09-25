@@ -28,12 +28,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		// NOTE: This is not a typical Terraform Registry provider address,
-		// such as registry.terraform.io/hashicorp/hashicups. This specific
-		// provider address is used in these tutorials in conjunction with a
-		// specific Terraform CLI configuration for manual development testing
-		// of this provider.
-		Address: "hashicorp.com/edu/ee-platform",
+		Address: "registry.terraform.io/springernature/ee-platform",
 		Debug:   debug,
 	}
 

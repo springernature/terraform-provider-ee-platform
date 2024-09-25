@@ -34,7 +34,7 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Teams data source",
 		Attributes: map[string]schema.Attribute{
-			"teams": schema.ListNestedAttribute{
+			"teams": schema.MapNestedAttribute{
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -60,13 +60,13 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 // Read refreshes the Terraform state with the latest data.
 func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	state := teamsDataSourceModel{
-		Teams: []teamsModel{
-			{
+		Teams: map[string]teamsModel{
+			"team1": {
 				ID:    types.StringValue("team1"),
 				Name:  types.StringValue("Team 1"),
 				CfOrg: types.StringValue("cforg1"),
 			},
-			{
+			"team2": {
 				ID:   types.StringValue("team2"),
 				Name: types.StringValue("Team 2"),
 			},
@@ -83,7 +83,7 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 
 // coffeesDataSourceModel maps the data source schema data.
 type teamsDataSourceModel struct {
-	Teams []teamsModel `tfsdk:"teams"`
+	Teams map[string]teamsModel `tfsdk:"teams"`
 }
 
 // teamsModel maps coffees schema data.

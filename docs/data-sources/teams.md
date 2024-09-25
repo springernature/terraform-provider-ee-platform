@@ -17,7 +17,7 @@ Teams data source
 
 ### Read-Only
 
-- `teams` (Attributes List) (see [below for nested schema](#nestedatt--teams))
+- `teams` (Attributes Map) (see [below for nested schema](#nestedatt--teams))
 
 <a id="nestedatt--teams"></a>
 ### Nested Schema for `teams`
