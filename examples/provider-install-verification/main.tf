@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    hashicups = {
+    ee-platform = {
       source = "hashicorp.com/edu/ee-platform"
     }
   }
@@ -8,5 +8,5 @@ terraform {
 
 provider "ee-platform" {}
 
-data "ee_platform_teams" "teams" {}
+data "ee-platform_teams" "teams" {}
 
