@@ -48,7 +48,7 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 						"cf_org": schema.StringAttribute{
 							Computed:            true,
 							Optional:            true,
-							MarkdownDescription: "CF org team deploys to",
+							MarkdownDescription: "CF organization team deploys to",
 						},
 					},
 				},
