@@ -10,3 +10,6 @@ provider "ee-platform" {}
 
 data "ee-platform_teams" "teams" {}
 
+output "all_teams" {
+  value = data.ee-platform_teams.teams
+}
