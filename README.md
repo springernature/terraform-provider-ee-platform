@@ -43,6 +43,6 @@ $ terraform init && terraform plan
 To publish a new release, create a git tag in the semver format `vx.y.z`. The workflow will run which creates a github release and updates the terraform registry.
 
 ```shell
-git tag -a v0.0.2 -m "message"
-git push --tags
+$ git tag -a v0.0.2 -m "message"
+$ git push --tags
 ```
