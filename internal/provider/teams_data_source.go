@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package provider
 
 import (
@@ -29,20 +32,23 @@ func (d *teamsDataSource) Metadata(_ context.Context, req datasource.MetadataReq
 // Schema defines the schema for the data source.
 func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Teams data source",
 		Attributes: map[string]schema.Attribute{
 			"teams": schema.ListNestedAttribute{
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							Computed: true,
-						},
+							Computed:            true,
+							MarkdownDescription: "id and Github team"},
 						"name": schema.StringAttribute{
-							Computed: true,
+							Computed:            true,
+							MarkdownDescription: "Readable team name",
 						},
 						"cf_org": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
+							Computed:            true,
+							Optional:            true,
+							MarkdownDescription: "CF org team deploys to",
 						},
 					},
 				},
