@@ -3,12 +3,12 @@
 page_title: "ee-platform_teams Data Source - ee-platform"
 subcategory: ""
 description: |-
-  Teams data source
+  Retrieves all teams
 ---
 
 # ee-platform_teams (Data Source)
 
-Teams data source
+Retrieves all teams
 
 
 
@@ -22,11 +22,13 @@ Teams data source
 <a id="nestedatt--teams"></a>
 ### Nested Schema for `teams`
 
+Required:
+
+- `department` (String) SN department the team is part of
+- `id` (String) Unique identifier of the team
+- `name` (String) Team name
+
 Optional:
 
-- `cf_org` (String) CF organization team deploys to
-
-Read-Only:
-
-- `id` (String) id and Github team
-- `name` (String) Readable team name
+- `domain` (String) SN Digital domain the team is part of
+- `snpaas_org` (String) SNPaaS Cloud Foundry organization that the team deploys to

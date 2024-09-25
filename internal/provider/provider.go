@@ -42,7 +42,9 @@ func (p *eePlatformProvider) Metadata(_ context.Context, _ provider.MetadataRequ
 
 // Schema defines the provider-level schema for configuration data.
 func (p *eePlatformProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
-	resp.Schema = schema.Schema{}
+	resp.Schema = schema.Schema{
+		MarkdownDescription: "Manage EE Platform resources with terraform",
+	}
 }
 
 // Configure prepares a EE Platform API client for data sources and resources.

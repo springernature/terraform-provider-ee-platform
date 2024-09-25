@@ -5,10 +5,9 @@ package provider
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -32,23 +31,36 @@ func (d *teamsDataSource) Metadata(_ context.Context, req datasource.MetadataReq
 // Schema defines the schema for the data source.
 func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Teams data source",
+		MarkdownDescription: "Retrieves all teams",
 		Attributes: map[string]schema.Attribute{
 			"teams": schema.MapNestedAttribute{
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "id and Github team"},
-						"name": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Readable team name",
+							Required:            true,
+							Description:         "Unique identifier of the team",
+							MarkdownDescription: "Unique identifier of the team",
 						},
-						"cf_org": schema.StringAttribute{
-							Computed:            true,
+						"name": schema.StringAttribute{
+							Required:            true,
+							Description:         "Team name",
+							MarkdownDescription: "Team name",
+						},
+						"department": schema.StringAttribute{
+							Required:            true,
+							Description:         "SN department the team is part of",
+							MarkdownDescription: "SN department the team is part of",
+						},
+						"domain": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "CF organization team deploys to",
+							Description:         "SN Digital domain the team is part of",
+							MarkdownDescription: "SN Digital domain the team is part of",
+						},
+						"snpaas_org": schema.StringAttribute{
+							Optional:            true,
+							Description:         "SNPaaS Cloud Foundry organization that the team deploys to",
+							MarkdownDescription: "SNPaaS Cloud Foundry organization that the team deploys to",
 						},
 					},
 				},
@@ -62,13 +74,16 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	state := teamsDataSourceModel{
 		Teams: map[string]teamsModel{
 			"team1": {
-				ID:    types.StringValue("team1"),
-				Name:  types.StringValue("Team 1"),
-				CfOrg: types.StringValue("cforg1"),
+				ID:         types.StringValue("team1"),
+				Name:       types.StringValue("Team 1"),
+				Department: types.StringValue("dept A"),
 			},
 			"team2": {
-				ID:   types.StringValue("team2"),
-				Name: types.StringValue("Team 2"),
+				ID:         types.StringValue("team2"),
+				Name:       types.StringValue("Team 2"),
+				Department: types.StringValue("dept A"),
+				Domain:     types.StringValue("domain A"),
+				SnPaasOrg:  types.StringValue("snpaas-org-a"),
 			},
 		},
 	}
@@ -88,7 +103,9 @@ type teamsDataSourceModel struct {
 
 // teamsModel maps teams schema data.
 type teamsModel struct {
-	ID    types.String `tfsdk:"id"`
-	Name  types.String `tfsdk:"name"`
-	CfOrg types.String `tfsdk:"cf_org"`
+	ID         types.String `tfsdk:"id"`
+	Name       types.String `tfsdk:"name"`
+	Department types.String `tfsdk:"department"`
+	Domain     types.String `tfsdk:"domain"`
+	SnPaasOrg  types.String `tfsdk:"snpaas_org"`
 }
