@@ -8,14 +8,16 @@ terraform {
 
 provider "ee-platform" {}
 
-data "ee-platform_teams" "teams" {}
+data "ee-platform_teams" "all_teams" {}
 
-output "all_teams" {
-  value = data.ee-platform_teams.teams.teams
+output "teams" {
+  value = data.ee-platform_teams.all_teams.teams
 }
 
+# example looping over teams
+# key === team id
 resource "local_file" "foo" {
-  for_each = data.ee-platform_teams.teams.teams
+  for_each = data.ee-platform_teams.all_teams.teams
   filename = "/tmp/test/${each.key}"
-  content  = each.value.name
+  content  = "name = ${each.value.name}, department = ${each.value.department}"
 }
