@@ -24,7 +24,7 @@ Teams data source
 
 Optional:
 
-- `cf_org` (String) CF org team deploys to
+- `cf_org` (String) CF organization team deploys to
 
 Read-Only:
 

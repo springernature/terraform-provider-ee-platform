@@ -81,12 +81,12 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 }
 
-// coffeesDataSourceModel maps the data source schema data.
+// teamsDataSourceModel maps the data source schema data.
 type teamsDataSourceModel struct {
 	Teams map[string]teamsModel `tfsdk:"teams"`
 }
 
-// teamsModel maps coffees schema data.
+// teamsModel maps teams schema data.
 type teamsModel struct {
 	ID    types.String `tfsdk:"id"`
 	Name  types.String `tfsdk:"name"`
