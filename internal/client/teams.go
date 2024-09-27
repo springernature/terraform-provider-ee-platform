@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -36,6 +37,11 @@ func (t teamsClient) GetTeams() (teams Teams, err error) {
 		return
 	}
 	defer response.Body.Close()
+
+	if response.StatusCode != 200 {
+		err = fmt.Errorf("%s", response.Status)
+		return
+	}
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
