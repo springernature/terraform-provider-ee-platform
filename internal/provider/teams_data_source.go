@@ -5,9 +5,11 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"terraform-provider-ee-platform/internal/client"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -21,11 +23,31 @@ func NewTeamsDataSource() datasource.DataSource {
 }
 
 // teamsDataSource is the data source implementation.
-type teamsDataSource struct{}
+type teamsDataSource struct {
+	teamsClient client.TeamsClient
+}
 
 // Metadata returns the data source type name.
 func (d *teamsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_teams"
+}
+
+func (d *teamsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	if req.ProviderData == nil {
+		return
+	}
+
+	teamsClient, ok := req.ProviderData.(client.TeamsClient)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected client.Teams, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	d.teamsClient = teamsClient
 }
 
 // Schema defines the schema for the data source.
@@ -69,26 +91,26 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 	}
 }
 
-// Read refreshes the Terraform state with the latest data.
 func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	state := teamsDataSourceModel{
-		Teams: map[string]teamsModel{
-			"team1": {
-				ID:         types.StringValue("team1"),
-				Name:       types.StringValue("Team 1"),
-				Department: types.StringValue("dept A"),
-			},
-			"team2": {
-				ID:         types.StringValue("team2"),
-				Name:       types.StringValue("Team 2"),
-				Department: types.StringValue("dept A"),
-				Domain:     types.StringValue("domain A"),
-				SnPaasOrg:  types.StringValue("snpaas-org-a"),
-			},
-		},
+	teams, err := d.teamsClient.GetTeams()
+	if err != nil {
+		resp.Diagnostics.AddError("Unable to fetch teams", err.Error())
 	}
 
-	// Set state
+	state := teamsDataSourceModel{
+		Teams: make(map[string]teamsModel),
+	}
+
+	for _, team := range teams {
+		state.Teams[team.ID] = teamsModel{
+			ID:         types.StringValue(team.ID),
+			Name:       types.StringValue(team.Name),
+			Department: types.StringValue(team.Department),
+			Domain:     types.StringValue(team.Domain),
+			SnPaasOrg:  types.StringValue(team.SnPaasOrg),
+		}
+	}
+
 	diags := resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -96,12 +118,10 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 }
 
-// teamsDataSourceModel maps the data source schema data.
 type teamsDataSourceModel struct {
 	Teams map[string]teamsModel `tfsdk:"teams"`
 }
 
-// teamsModel maps teams schema data.
 type teamsModel struct {
 	ID         types.String `tfsdk:"id"`
 	Name       types.String `tfsdk:"name"`
