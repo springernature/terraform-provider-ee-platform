@@ -69,16 +69,6 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 							Description:         "Team name",
 							MarkdownDescription: "Team name",
 						},
-						"department": schema.StringAttribute{
-							Required:            true,
-							Description:         "SN department the team is part of",
-							MarkdownDescription: "SN department the team is part of",
-						},
-						"domain": schema.StringAttribute{
-							Optional:            true,
-							Description:         "SN Digital domain the team is part of",
-							MarkdownDescription: "SN Digital domain the team is part of",
-						},
 						"snpaas_org": schema.StringAttribute{
 							Optional:            true,
 							Description:         "SNPaaS Cloud Foundry organization that the team deploys to",
@@ -103,11 +93,9 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 
 	for _, team := range teams {
 		state.Teams[team.ID] = teamsModel{
-			ID:         types.StringValue(team.ID),
-			Name:       types.StringValue(team.Name),
-			Department: types.StringValue(team.Department),
-			Domain:     types.StringValue(team.Domain),
-			SnPaasOrg:  types.StringValue(team.SnPaasOrg),
+			ID:        types.StringValue(team.ID),
+			Name:      types.StringValue(team.Name),
+			SnPaasOrg: types.StringValue(team.SnPaasOrg),
 		}
 	}
 
@@ -123,9 +111,7 @@ type teamsDataSourceModel struct {
 }
 
 type teamsModel struct {
-	ID         types.String `tfsdk:"id"`
-	Name       types.String `tfsdk:"name"`
-	Department types.String `tfsdk:"department"`
-	Domain     types.String `tfsdk:"domain"`
-	SnPaasOrg  types.String `tfsdk:"snpaas_org"`
+	ID        types.String `tfsdk:"id"`
+	Name      types.String `tfsdk:"name"`
+	SnPaasOrg types.String `tfsdk:"snpaas_org"`
 }

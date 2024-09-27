@@ -11,11 +11,9 @@ import (
 
 type Teams []Team
 type Team struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	Department string `json:"department"`
-	Domain     string `json:"domain"`
-	SnPaasOrg  string `json:"snpaas_org"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	SnPaasOrg string `json:"snpaas_org"`
 }
 
 type PlatformClient interface {

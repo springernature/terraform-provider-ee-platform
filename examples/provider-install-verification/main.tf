@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "ee-platform" {
-    platform_api = "localhost:8080"
+    platform_api = "https://ee-platform.springernature.app:8080"
 }
 
 data "ee-platform_teams" "all_teams" {}
@@ -21,5 +21,5 @@ output "teams" {
 resource "local_file" "foo" {
   for_each = data.ee-platform_teams.all_teams.teams
   filename = "/tmp/test/${each.key}"
-  content  = "name = ${each.value.name}, department = ${each.value.department}"
+  content  = "name = ${each.value.name}, id = ${each.value.id}"
 }
