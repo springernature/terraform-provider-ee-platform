@@ -43,14 +43,14 @@ func (p *eePlatformProvider) Metadata(_ context.Context, _ provider.MetadataRequ
 }
 
 type EEPlatformProviderModel struct {
-	TeamsApi types.String `tfsdk:"teams_api"`
+	TeamsApi types.String `tfsdk:"platform_api"`
 }
 
 func (p *eePlatformProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Manage EE Platform resources with terraform",
 		Attributes: map[string]schema.Attribute{
-			"teams_api": schema.StringAttribute{
+			"platform_api": schema.StringAttribute{
 				Optional: true,
 			},
 		},
@@ -59,7 +59,7 @@ func (p *eePlatformProvider) Schema(_ context.Context, _ provider.SchemaRequest,
 
 // Configure prepares a EE Platform API client for data sources and resources.
 func (p *eePlatformProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	teamsApi := os.Getenv("TEAMS_API")
+	teamsApi := os.Getenv("PLATFORM_API")
 
 	var data EEPlatformProviderModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
@@ -70,13 +70,13 @@ func (p *eePlatformProvider) Configure(ctx context.Context, req provider.Configu
 		} else {
 			resp.Diagnostics.AddError(
 				"Missing teams API endpoint",
-				"While configuring the provider, the teams API endpoint was not found in the TEAMS_API environment variable or provider configuration block teams_api attribute.",
+				"While configuring the provider, the teams API endpoint was not found in the PLATFORM_API environment variable or provider configuration block platform_api attribute.",
 			)
 			return
 		}
 	}
 
-	resp.DataSourceData = client.NewTeamsClient(teamsApi)
+	resp.DataSourceData = client.NewPlatformClient(teamsApi)
 }
 
 // DataSources defines the data sources implemented in the provider.

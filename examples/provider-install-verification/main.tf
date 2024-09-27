@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "ee-platform" {
-    teams_api = "http://localhost:8080"
+    platform_api = "localhost:8080"
 }
 
 data "ee-platform_teams" "all_teams" {}

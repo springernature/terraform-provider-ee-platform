@@ -18,15 +18,15 @@ type Team struct {
 	SnPaasOrg  string `json:"snpaas_org"`
 }
 
-type TeamsClient interface {
+type PlatformClient interface {
 	GetTeams() (Teams, error)
 }
 
-type teamsClient struct {
+type platformClient struct {
 	teamsEndpoint string
 }
 
-func (t teamsClient) GetTeams() (teams Teams, err error) {
+func (t platformClient) GetTeams() (teams Teams, err error) {
 	u, err := url.Parse(t.teamsEndpoint)
 	if err != nil {
 		return
@@ -52,8 +52,8 @@ func (t teamsClient) GetTeams() (teams Teams, err error) {
 	return
 }
 
-func NewTeamsClient(teamsEndpoint string) TeamsClient {
-	return teamsClient{
+func NewPlatformClient(teamsEndpoint string) PlatformClient {
+	return platformClient{
 		teamsEndpoint: teamsEndpoint,
 	}
 }

@@ -24,7 +24,7 @@ func NewTeamsDataSource() datasource.DataSource {
 
 // teamsDataSource is the data source implementation.
 type teamsDataSource struct {
-	teamsClient client.TeamsClient
+	platformClient client.PlatformClient
 }
 
 // Metadata returns the data source type name.
@@ -37,7 +37,7 @@ func (d *teamsDataSource) Configure(ctx context.Context, req datasource.Configur
 		return
 	}
 
-	teamsClient, ok := req.ProviderData.(client.TeamsClient)
+	platformClient, ok := req.ProviderData.(client.PlatformClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -47,7 +47,7 @@ func (d *teamsDataSource) Configure(ctx context.Context, req datasource.Configur
 		return
 	}
 
-	d.teamsClient = teamsClient
+	d.platformClient = platformClient
 }
 
 // Schema defines the schema for the data source.
@@ -92,7 +92,7 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 }
 
 func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	teams, err := d.teamsClient.GetTeams()
+	teams, err := d.platformClient.GetTeams()
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to fetch teams", err.Error())
 	}
