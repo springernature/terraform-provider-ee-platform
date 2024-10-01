@@ -16,8 +16,7 @@ Manage EE Platform resources with terraform
 terraform {
   required_providers {
     ee-platform = {
-      source  = "springernature/ee-platform"
-      version = "0.0.2"
+      source = "springernature/ee-platform"
     }
   }
 }
