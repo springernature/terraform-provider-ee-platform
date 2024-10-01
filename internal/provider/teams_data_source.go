@@ -65,9 +65,9 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 							MarkdownDescription: "Unique identifier of the team",
 						},
 						"name": schema.StringAttribute{
-							Required:            true,
-							Description:         "Team name",
-							MarkdownDescription: "Team name",
+							Optional:            true,
+							Description:         "Human readable team name",
+							MarkdownDescription: "Human readable team name",
 						},
 						"snpaas_org": schema.StringAttribute{
 							Optional:            true,

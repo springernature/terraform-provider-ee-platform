@@ -53,8 +53,8 @@ resource "local_file" "foo" {
 Required:
 
 - `id` (String) Unique identifier of the team
-- `name` (String) Team name
 
 Optional:
 
+- `name` (String) Human readable team name
 - `snpaas_org` (String) SNPaaS Cloud Foundry organization that the team deploys to
