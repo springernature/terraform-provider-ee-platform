@@ -7,4 +7,6 @@ terraform {
   }
 }
 
-provider "ee-platform" {}
+provider "ee-platform" {
+  platform_api = "https://ee-platform-dev.springernature.app"
+}

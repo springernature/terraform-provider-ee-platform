@@ -13,6 +13,18 @@ Retrieves all teams
 ## Example Usage
 
 ```terraform
+terraform {
+  required_providers {
+    ee-platform = {
+      source = "springernature/ee-platform"
+    }
+  }
+}
+
+provider "ee-platform" {
+  platform_api = "https://ee-platform-dev.springernature.app"
+}
+
 data "ee-platform_teams" "all_teams" {}
 
 output "teams" {
@@ -24,7 +36,7 @@ output "teams" {
 resource "local_file" "foo" {
   for_each = data.ee-platform_teams.all_teams.teams
   filename = "/tmp/test/${each.key}"
-  content  = "name = ${each.value.name}, department = ${each.value.department}"
+  content  = "name = ${each.value.name}, id = ${each.value.id}"
 }
 ```
 
@@ -40,11 +52,9 @@ resource "local_file" "foo" {
 
 Required:
 
-- `department` (String) SN department the team is part of
 - `id` (String) Unique identifier of the team
 - `name` (String) Team name
 
 Optional:
 
-- `domain` (String) SN Digital domain the team is part of
 - `snpaas_org` (String) SNPaaS Cloud Foundry organization that the team deploys to
