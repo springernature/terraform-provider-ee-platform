@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "ee-platform" {
-  platform_api = "https://ee-platform-dev.springernature.app"
+  platform_api = "https://ee-platform-dev.apps.private.k8s.springernature.io"
 }
 
 data "ee-platform_teams" "all_teams" {}
