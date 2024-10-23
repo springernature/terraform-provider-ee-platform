@@ -12,6 +12,10 @@ import (
 	"net/url"
 )
 
+type TeamsResponse struct {
+	Teams Teams `json:"teams"`
+}
+
 type Teams []Team
 type Team struct {
 	ID        string `json:"id"`
@@ -33,7 +37,7 @@ func (t platformClient) GetTeams() (teams Teams, err error) {
 		return
 	}
 
-	response, err := http.Get(u.JoinPath("/api/teams").String())
+	response, err := http.Get(u.JoinPath("/api/v1/teams").String())
 	if err != nil {
 		return
 	}
@@ -49,8 +53,9 @@ func (t platformClient) GetTeams() (teams Teams, err error) {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal(body, &teams)
-	return
+	teamsResponse := TeamsResponse{}
+	err = json.Unmarshal(body, &teamsResponse)
+	return teamsResponse.Teams, err
 }
 
 func NewPlatformClient(teamsEndpoint string) PlatformClient {
