@@ -64,11 +64,6 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 							Description:         "Unique identifier of the team",
 							MarkdownDescription: "Unique identifier of the team",
 						},
-						"name": schema.StringAttribute{
-							Required:            true,
-							Description:         "Team name",
-							MarkdownDescription: "Team name",
-						},
 						"snpaas_org": schema.StringAttribute{
 							Optional:            true,
 							Description:         "SNPaaS Cloud Foundry organization that the team deploys to",
@@ -94,7 +89,6 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	for _, team := range teams.GetTeams() {
 		state.Teams[team.GetId()] = teamsModel{
 			ID:        types.StringValue(team.GetId()),
-			Name:      types.StringValue(team.GetName()),
 			SnPaasOrg: types.StringValue(team.GetSnpaasOrg()),
 		}
 	}
@@ -112,6 +106,5 @@ type teamsDataSourceModel struct {
 
 type teamsModel struct {
 	ID        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
 	SnPaasOrg types.String `tfsdk:"snpaas_org"`
 }
