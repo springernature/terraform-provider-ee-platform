@@ -10,8 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/springernature/ee-platform/pkg/api_client"
 	"os"
-	"terraform-provider-ee-platform/internal/client"
+	"strings"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -43,7 +44,7 @@ func (p *eePlatformProvider) Metadata(_ context.Context, _ provider.MetadataRequ
 }
 
 type EEPlatformProviderModel struct {
-	TeamsApi types.String `tfsdk:"platform_api"`
+	PlatformAPI types.String `tfsdk:"platform_api"`
 }
 
 func (p *eePlatformProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
@@ -59,14 +60,14 @@ func (p *eePlatformProvider) Schema(_ context.Context, _ provider.SchemaRequest,
 
 // Configure prepares a EE Platform API client for data sources and resources.
 func (p *eePlatformProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	teamsApi := os.Getenv("PLATFORM_API")
+	platformAPI := os.Getenv("PLATFORM_API")
 
 	var data EEPlatformProviderModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
-	if teamsApi == "" {
-		if !data.TeamsApi.IsNull() {
-			teamsApi = data.TeamsApi.ValueString()
+	if platformAPI == "" {
+		if !data.PlatformAPI.IsNull() {
+			platformAPI = data.PlatformAPI.ValueString()
 		} else {
 			resp.Diagnostics.AddError(
 				"Missing teams API endpoint",
@@ -76,7 +77,10 @@ func (p *eePlatformProvider) Configure(ctx context.Context, req provider.Configu
 		}
 	}
 
-	resp.DataSourceData = client.NewPlatformClient(teamsApi)
+	clientConfig := api_client.NewConfiguration()
+	clientConfig.Host = strings.TrimPrefix(platformAPI, "https://")
+	apiClient := api_client.NewAPIClient(clientConfig)
+	resp.DataSourceData = apiClient
 }
 
 // DataSources defines the data sources implemented in the provider.

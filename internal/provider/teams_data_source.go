@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"terraform-provider-ee-platform/internal/client"
+	"github.com/springernature/ee-platform/pkg/api_client"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -24,7 +24,7 @@ func NewTeamsDataSource() datasource.DataSource {
 
 // teamsDataSource is the data source implementation.
 type teamsDataSource struct {
-	platformClient client.PlatformClient
+	platformClient *api_client.APIClient
 }
 
 // Metadata returns the data source type name.
@@ -37,11 +37,11 @@ func (d *teamsDataSource) Configure(ctx context.Context, req datasource.Configur
 		return
 	}
 
-	platformClient, ok := req.ProviderData.(client.PlatformClient)
+	platformClient, ok := req.ProviderData.(*api_client.APIClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected client.Teams, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *api_client.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
@@ -82,7 +82,7 @@ func (d *teamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 }
 
 func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	teams, err := d.platformClient.GetTeams()
+	teams, _, err := d.platformClient.DefaultAPI.ListTeams(ctx).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to fetch teams", err.Error())
 	}
@@ -91,11 +91,11 @@ func (d *teamsDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		Teams: make(map[string]teamsModel),
 	}
 
-	for _, team := range teams {
-		state.Teams[team.ID] = teamsModel{
-			ID:        types.StringValue(team.ID),
-			Name:      types.StringValue(team.Name),
-			SnPaasOrg: types.StringValue(team.SnPaasOrg),
+	for _, team := range teams.GetTeams() {
+		state.Teams[team.GetId()] = teamsModel{
+			ID:        types.StringValue(team.GetId()),
+			Name:      types.StringValue(team.GetName()),
+			SnPaasOrg: types.StringValue(team.GetSnpaasOrg()),
 		}
 	}
 

@@ -15,4 +15,8 @@ fmt:
 test:
 	go test -v -cover -timeout=120s -parallel=10 ./...
 
-.PHONY: fmt test build install generate
+update:
+	go get -t -u ./...
+	go mod tidy
+
+.PHONY: fmt test build install generate update

@@ -11,6 +11,10 @@ https://registry.terraform.io/providers/springernature/ee-platform
 See the makefile commands
 
 ```shell
+# configure go for private springernature modules
+$ git config --global url.git@github.com:springernature.insteadOf https://github.com/springernature
+$ go env -w GOPRIVATE=github.com/springernature/*
+
 # run the tests
 $ make test
 
@@ -32,7 +36,7 @@ provider_installation {
 }
 
 # run the example 
-$ cd examples/provider-install-verification
+$ cd examples/data-sources/ee-platform_teams
 $ terraform init && terraform plan
 ```
 
