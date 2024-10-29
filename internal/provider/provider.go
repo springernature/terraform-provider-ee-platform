@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/springernature/ee-platform/pkg/api_client"
+	"net/url"
 	"os"
-	"strings"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -77,8 +77,19 @@ func (p *eePlatformProvider) Configure(ctx context.Context, req provider.Configu
 		}
 	}
 
+	pAURL, err := url.Parse(platformAPI)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to parse API endpoint",
+			"",
+		)
+		return
+	}
+
 	clientConfig := api_client.NewConfiguration()
-	clientConfig.Host = strings.TrimPrefix(platformAPI, "https://")
+
+	clientConfig.Host = pAURL.Host
+	clientConfig.Scheme = pAURL.Scheme
 	apiClient := api_client.NewAPIClient(clientConfig)
 	resp.DataSourceData = apiClient
 }
