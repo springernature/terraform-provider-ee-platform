@@ -47,6 +47,10 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/springernature/ee-platform v0.0.0-20241028140607-ec5bca944b1b h1:iRcOYSfzTbqFPAQY+RmXTX56csJTTV4vsuQtQhSW2yA=
 github.com/springernature/ee-platform v0.0.0-20241028140607-ec5bca944b1b/go.mod h1:wRjuEQP55MLMiHaAq7pydxfg/xD8FoMf5XGg3bDZBi0=
+github.com/springernature/ee-platform v0.0.0-20241029094023-e04dca665ed4 h1:W8Dxt36yKBma5MbC3IUES6S8cqK+pEUP83lkcXDsl6U=
+github.com/springernature/ee-platform v0.0.0-20241029094023-e04dca665ed4/go.mod h1:wRjuEQP55MLMiHaAq7pydxfg/xD8FoMf5XGg3bDZBi0=
+github.com/springernature/ee-platform v0.0.0-20241029101808-b49b2c2a1c4c h1:ViLb2Mes0umnXXDIvCz2lWCWNWGEhgdLq2lfn+rbbfI=
+github.com/springernature/ee-platform v0.0.0-20241029101808-b49b2c2a1c4c/go.mod h1:wRjuEQP55MLMiHaAq7pydxfg/xD8FoMf5XGg3bDZBi0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=

@@ -21,5 +21,5 @@ output "teams" {
 resource "local_file" "foo" {
   for_each = data.ee-platform_teams.all_teams.teams
   filename = "/tmp/test/${each.key}"
-  content  = "name = ${each.value.name}, id = ${each.value.id}"
+  content  = "id = ${each.value.id}"
 }

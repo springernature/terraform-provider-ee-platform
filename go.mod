@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/hashicorp/terraform-plugin-framework v1.12.0
-	github.com/springernature/ee-platform v0.0.0-20241028140607-ec5bca944b1b
+	github.com/springernature/ee-platform v0.0.0-20241029101808-b49b2c2a1c4c
 )
 
 require (
