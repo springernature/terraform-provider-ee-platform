@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v6.0.2 # v4.1.7
       - name: Setup .netrc
         run: echo -e "machine github.com\nlogin ${{ secrets.GH_USERNAME }}\npassword ${{ secrets.GH_PAT }}" > ~/.netrc
-      - uses: actions/setup-go@v6.2.0 # v5.0.2
+      - uses: actions/setup-go@v6.3.0 # v5.0.2
         with:
           go-version-file: 'go.mod'
           cache: true
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v6.0.2 # v4.1.7
       - name: Setup .netrc
         run: echo -e "machine github.com\nlogin ${{ secrets.GH_USERNAME }}\npassword ${{ secrets.GH_PAT }}" > ~/.netrc
-      - uses: actions/setup-go@v6.2.0 # v5.0.2
+      - uses: actions/setup-go@v6.3.0 # v5.0.2
         with:
           go-version-file: 'go.mod'
           cache: true
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v6.0.2 # v4.1.7
       - name: Setup .netrc
         run: echo -e "machine github.com\nlogin ${{ secrets.GH_USERNAME }}\npassword ${{ secrets.GH_PAT }}" > ~/.netrc
-      - uses: actions/setup-go@v6.2.0 # v5.0.2
+      - uses: actions/setup-go@v6.3.0 # v5.0.2
         with:
           go-version-file: 'go.mod'
           cache: true
