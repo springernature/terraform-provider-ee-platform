@@ -24,8 +24,20 @@ jobs:
         with:
           # Allow goreleaser to access older tag information.
           fetch-depth: 0
-      - name: Setup .netrc
-        run: echo -e "machine github.com\nlogin ${{ secrets.GH_USERNAME }}\npassword ${{ secrets.GH_PAT }}" > ~/.netrc
+      - name: Authenticate to private GitHub modules
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          test -n "$GH_PAT" || { echo "::error::GH_PAT is not configured"; exit 1; }
+          git config --global credential.helper store
+          printf '%s\n' \
+            'protocol=https' \
+            'host=github.com' \
+            'username=x-access-token' \
+            "password=$GH_PAT" \
+            '' | git credential approve
+          chmod 600 ~/.git-credentials
+          git -C "$RUNNER_TEMP" ls-remote --exit-code https://github.com/springernature/ee-platform HEAD >/dev/null
       - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version-file: 'go.mod'
