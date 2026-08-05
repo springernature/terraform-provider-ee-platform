@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
-	github.com/springernature/ee-platform v0.0.0-20260727082949-755ed95e1963
+	github.com/springernature/ee-platform v0.0.0-20260805113607-c4c0ba762cb7
 )
 
 require (
@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/go-plugin v1.8.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.31.0 // indirect
-	github.com/hashicorp/terraform-plugin-log v0.10.0 // indirect
+	github.com/hashicorp/terraform-plugin-log v0.11.0 // indirect
 	github.com/hashicorp/terraform-registry-address v0.5.0 // indirect
 	github.com/hashicorp/terraform-svchost v0.2.1 // indirect
 	github.com/hashicorp/yamux v0.1.2 // indirect
@@ -27,7 +27,7 @@ require (
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260724162435-b2f20204f0df // indirect
-	google.golang.org/grpc v1.82.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260803160001-6ac0973c030d // indirect
+	google.golang.org/grpc v1.83.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
